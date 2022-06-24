@@ -1,0 +1,5 @@
+.venv
+.vscode
+__pycache__
+*.egg_info/
+code2recycle
