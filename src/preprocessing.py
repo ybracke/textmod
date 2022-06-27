@@ -33,9 +33,11 @@ def unescape(word):
     return ''.join([UNESCAPE[s] if s in UNESCAPE else s for s in word])
 
 def unidecode_classic(words):
+    ''' Transliteration with unidecode '''
     return [unidecode.unidecode(w,errors='preserve') for w in words]
 
 def unidecode_ger(words):
+    ''' Transliteration with unidecode but keep ÄÖÜäöüß'''
     return [unescape(unidecode.unidecode(escape(w),errors='preserve')) 
             for w in words]
 
@@ -95,7 +97,7 @@ class TextModifier:
         '''
 
         accepted_keys = ['remove_punct','lowercase', 'truecase',
-                         'convert_to', 'unidecode'] 
+                         'convert_to', 'translit'] 
         boolean_keys = ['remove_punct','lowercase', 'truecase']
         for key,val in self.config.items():
             if key not in accepted_keys:
@@ -107,8 +109,8 @@ class TextModifier:
                 elif key == 'convert_to':
                     if val not in ['lemma', 'stem']:
                         raise ValueError(f"Unknown config entry: {key}={val}")
-                elif key == 'unidecode':
-                    if val not in ['classic', 'GER']:
+                elif key == 'translit':
+                    if val not in ['unidecode', 'unidecode_GER']:
                         raise ValueError(f"Unknown config entry: {key}={val}")
                 else: 
                     raise ValueError(f"Unknown config entry: {key}={val}")
@@ -150,10 +152,10 @@ class TextModifier:
                     elif val == 'stem':
                         # TODO 
                         pass
-                elif method == 'unidecode':
-                    if val == 'classic':
+                elif method == 'translit':
+                    if val == 'unidecode':
                         doc = self.apply_method(doc, unidecode_classic, self.is_nested_doc)
-                    elif val == 'GER':
+                    elif val == 'unidecode_GER':
                         doc = self.apply_method(doc, unidecode_ger, self.is_nested_doc)
                     elif val is None:
                         pass

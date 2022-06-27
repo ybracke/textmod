@@ -18,7 +18,7 @@ wordlist_sents = [
 config = {
     # "comment" : "This is a stub of the preproc config file; still under development",
     "remove_punct" : True,
-    "unidecode" : "GER",
+    "translit" : "unidecode_GER",
     "lowercase" : True
 }
 
