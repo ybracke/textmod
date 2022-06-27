@@ -1,7 +1,7 @@
 import sys
-sys.path.append('/home/bracke/code/normtextmod')
+sys.path.append('/home/bracke/code/textmod')
 # sys.path.append('..') # Why doesn't this work here, while it does in eval-de-normal?
-from textmodification import TextModifier
+from textmod import TextModifier
 
 
 # Example list for testing

@@ -1,4 +1,4 @@
-# README
+# `textmod`
 
 Functions for modifying lists of text
 
@@ -7,7 +7,7 @@ To be used for pre- or post-precessing in my tool comparison.
 Directory `code2recycle` contains symlinks to previously written programs
 that already contain much of the desired functionality.
 
-# Functionalities (already and coming)
+# Functionalities (present and future)
 
 - Punctuation removal   
   - different definitions / lists of punctuation? (typically pre-process)
