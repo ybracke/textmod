@@ -1,7 +1,7 @@
 import sys
-sys.path.append('/home/bracke/code/normpreproc')
+sys.path.append('/home/bracke/code/normtextmod')
 # sys.path.append('..') # Why doesn't this work here, while it does in eval-de-normal?
-from src.preprocessing import TextModifier
+from textmodification import TextModifier
 
 
 # Example list for testing
@@ -27,7 +27,7 @@ def to_uppercase(words):
     return [w.upper() for w in words]
 
 tf = TextModifier(wordlist_sents, **config)
-# wordlist_mod = tf.modify()
+wordlist_mod = tf.modify()
 # print(tf.doc)
-wordlist_mod = tf.apply_method(wordlist_sents, to_uppercase, doc_nested=True)
+# wordlist_mod = tf.apply_method(wordlist_sents, to_uppercase, doc_nested=True)
 print(wordlist_mod)

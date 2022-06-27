@@ -15,14 +15,35 @@ quite complete.
 
 # TODOs
 
-- [ ] First step: Write down all of the manipulation I already know this program
-is supposed to be able to do.
-- [ ] What is the input/output format of this module
-- [ ] Get an overview over the code in `code2recycle`
+- [ ] Take care of lemmatization/stemming:
+  - Look at the discussion here: https://dmm.bbaw.de/dstar-teambbaw/pl/q3b4kq7m4jd8deaxn4oij7ybuc
+  - Look at: /home/bracke/code/normpreproc/code2recycle/preproc.py
+
+## Done
+
+- [x] What is the input/output format of this module
+- [x] Get an overview over the code in `code2recycle`
+
+# What the program should be able to do
+
+- Punctuation removal   
+  - different definitions / lists of punctuation? (typically pre-process)
+- lowercasing (both)
+- truecasing (typically post-process)
+- unidecode (typically pre-process)
+  - "keep Umlauts+ß"-option (see unicode_ger.py)
+- option to apply hand-written rules (in dict or so) (both)
+- stemming (typically post-process)
+- lemmatization (typically post-process)
+  
+- Order of manipulation matters, so watch out how you order stuff in the config
+  - steps where order matters: 
+    - remove punct <> lemmatization (lemmatizer may depend on tokenization)
+    - unidecode <> lemmatization/stemming
+    - lowercasing <> lemmatization/stemming
 
 
-
-## Requirements
+# Requirements
 
 ```bash
 pip install -r requirements.txt
