@@ -97,7 +97,7 @@ class TextModifier:
         '''
 
         accepted_keys = ['remove_punct','lowercase', 'truecase',
-                         'convert_to', 'translit'] 
+                         'convert_to', 'translit', 'comment'] 
         boolean_keys = ['remove_punct','lowercase', 'truecase']
         for key,val in self.config.items():
             if key not in accepted_keys:
@@ -106,6 +106,8 @@ class TextModifier:
                 if key in boolean_keys:
                     if not isinstance(val, bool):
                         raise ValueError(f"Unknown config entry: {key}={val}")
+                elif key == 'comment':
+                    pass
                 elif key == 'convert_to':
                     if val not in ['lemma', 'stem']:
                         raise ValueError(f"Unknown config entry: {key}={val}")
