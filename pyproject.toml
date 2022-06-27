@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "textmod"
+version = "0.0.1"
+authors = [
+  { name="Yannic Bracke", email="yannic.bracke@bbaw.de" },
+]
+description = "Functions for modifying lists of text"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "unidecode >= 1.3.4",
+]
+
+
+[project.urls]
+"Homepage" = "https://github.com/ybracke/textmod"
