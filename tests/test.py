@@ -1,7 +1,7 @@
 import sys
 sys.path.append('/home/bracke/code/normpreproc')
 # sys.path.append('..') # Why doesn't this work here, while it does in eval-de-normal?
-import src.preprocessing
+from src.preprocessing import TextModifier
 
 
 # Example list for testing
@@ -15,4 +15,12 @@ wordlist_sents = [
 ]
 
 
+config = {
+    # "comment" : "This is a stub of the preproc config file; still under development",
+    "remove_punct" : True,
+    "unidecode" : "GER",
+    "lowercase" : True
+}
 
+wordlist_mod = TextModifier(wordlist, **config).modify()
+print(wordlist_mod)
