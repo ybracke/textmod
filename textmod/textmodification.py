@@ -26,36 +26,41 @@ UNESCAPE = {
     '\ue006' : 'ß',
 }
 
-def escape(word):
-    return ''.join([ESCAPE[s] if s in ESCAPE else s for s in word])
+def escape(token):
+    return ''.join([ESCAPE[s] if s in ESCAPE else s for s in token])
     
-def unescape(word):
-    return ''.join([UNESCAPE[s] if s in UNESCAPE else s for s in word])
+def unescape(token):
+    return ''.join([UNESCAPE[s] if s in UNESCAPE else s for s in token])
 
-def unidecode_classic(words):
+def unidecode_classic(tokens):
     ''' Transliteration with unidecode '''
-    return [unidecode.unidecode(w,errors='preserve') for w in words]
+    return [unidecode.unidecode(w,errors='preserve') for t in tokens]
 
-def unidecode_ger(words):
+def unidecode_ger(tokens):
     ''' Transliteration with unidecode but keep ÄÖÜäöüß'''
-    return [unescape(unidecode.unidecode(escape(w),errors='preserve')) 
-            for w in words]
+    return [unescape(unidecode.unidecode(escape(t),errors='preserve')) 
+            for t in tokens]
 
 # (B) Punctuation removal
 
-def remove_punctuation(words):
-    ''' Remove punctuation from list of tokenized words '''
-    return [w for w in words if re.sub(r'[^\w\s]', '', w) != '']
+def remove_punctuation(tokens):
+    ''' Remove punctuation from list of tokenized tokens '''
+    return [t for t in tokens if re.sub(r'[^\w\s]', '', t) != '']
+
+def punct_idxs(tokens):
+    return [i for i,t in enumerate(tokens) 
+            if re.sub(r'[^\w\s]', '', t) == ''
+            ]
 
 # (C) Case modification
 
-def to_lowercase(words):
-    ''' Convert a list of tokenized words to lowercase '''
-    return [w.lower() for w in words]
+def to_lowercase(tokens):
+    ''' Convert a list of tokenized tokens to lowercase '''
+    return [t.lower() for t in tokens]
 
-def to_truecase(words):
+def to_truecase(tokens):
     # TODO
-    return words
+    return tokens
 
 # (D) Wordform modification (stem, lemma)
 # TODO
@@ -70,9 +75,10 @@ class TextModifier:
 
         Parameters
         ----------
-        doc : list
-            Strings to be modified. This can be either a list of strings or
-            a list containing lists of strings (sentences). 
+        doc : list of lists of strings
+            Document to be modified, consisting of sentences (list) and tokens
+            (str). Hint: If your doc consists of a single tokenlist (no
+            sentences), just wrap it inside another list before passing it.  
         config : dict
             Configurations for modification
         '''
@@ -83,13 +89,6 @@ class TextModifier:
         self._config_ok()
         self.stemmer = None #TODO
         self.NLP = None #TODO
-
-        # Is the data nested in sentences
-        # Relevant for the application of methods
-        self.is_nested_doc = False 
-        if (len(doc) > 0) and (isinstance(doc[0], list)):
-            self.is_nested_doc = True 
-
 
     def _config_ok(self):
         '''
@@ -118,30 +117,19 @@ class TextModifier:
                     raise ValueError(f"Unknown config entry: {key}={val}")
         return True
 
-    def apply_method(self, doc, method, doc_nested=False):
-        '''
-        Wrapper function for modification methods 
-        Accounts for nested and unnested documents
-
-        Can also be used to pass methods defined elsewhere to a TextModifier
-        '''
-        if doc_nested:
-            return [method(sent) for sent in doc]
-        return method(doc)
-
     def modify(self):
         '''
         Apply text modification functions in the order given in self.config
-
         '''
+
         doc = self.doc
         for method,val in self.config.items():
             # Boolean argument
             if val is True:
                 if method == 'remove_punct':
-                    doc = self.apply_method(doc, remove_punctuation, self.is_nested_doc)
+                    doc = [remove_punctuation(s) for s in doc]
                 elif method == 'lowercase':
-                    doc = self.apply_method(doc, to_lowercase, self.is_nested_doc)
+                    doc = [to_lowercase(s) for s in doc]
                 elif method == 'truecase':
                     # TODO
                     pass
@@ -156,9 +144,9 @@ class TextModifier:
                         pass
                 elif method == 'translit':
                     if val == 'unidecode':
-                        doc = self.apply_method(doc, unidecode_classic, self.is_nested_doc)
+                        doc = [unidecode_classic(s) for s in doc]
                     elif val == 'unidecode_GER':
-                        doc = self.apply_method(doc, unidecode_ger, self.is_nested_doc)
+                        doc = [unidecode_ger(s) for s in doc]
                     elif val is None:
                         pass
         return doc
