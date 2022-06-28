@@ -34,7 +34,11 @@ def unescape(token):
 
 def unidecode_classic(tokens):
     ''' Transliteration with unidecode '''
+<<<<<<< HEAD
     return [unidecode.unidecode(t,errors='preserve') for t in tokens]
+=======
+    return [unidecode.unidecode(w,errors='preserve') for t in tokens]
+>>>>>>> 1512b6224b8e691a9780db4b70fd9dec63c73cdb
 
 def unidecode_ger(tokens):
     ''' Transliteration with unidecode but keep ÄÖÜäöüß'''
