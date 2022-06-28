@@ -26,7 +26,7 @@ def to_uppercase(words):
     ''' Convert a list of tokenized words to lowercase '''
     return [w.upper() for w in words]
 
-tf = TextModifier(wordlist_sents, **config)
+tf = TextModifier([wordlist], **config)
 wordlist_mod = tf.modify()
 # print(tf.doc)
 # wordlist_mod = tf.apply_method(wordlist_sents, to_uppercase, doc_nested=True)

@@ -1,6 +1,6 @@
 # `textmod`
 
-Functions for modifying lists of text
+Functions for modifying text (inside lists)
 
 To be used for pre- or post-precessing in my tool comparison.
 
@@ -26,6 +26,7 @@ that already contain much of the desired functionality.
 
 # TODOs
 
+- [ ] Documentation (of data I/O, etc)
 - [ ] Take care of lemmatization/stemming:
   - Look at the discussion here: https://dmm.bbaw.de/dstar-teambbaw/pl/q3b4kq7m4jd8deaxn4oij7ybuc
   - Look at: /home/bracke/code/normpreproc/code2recycle/preproc.py
