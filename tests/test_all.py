@@ -99,6 +99,3 @@ def test_modify_ok() -> None:
     tm = textmod.TextModifier(text, **config)
     assert tm.modify() == target_text
 
-
-def test_bad() -> None:
-    assert True == False
