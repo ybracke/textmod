@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import re
+from typing import List
 import unidecode
 
 # (A) Transliteration
@@ -26,35 +27,36 @@ UNESCAPE = {
     '\ue006' : 'ß',
 }
 
-def escape(token):
+def escape(token: str) -> str:
     return ''.join([ESCAPE[s] if s in ESCAPE else s for s in token])
     
-def unescape(token):
+def unescape(token: str) -> str:
     return ''.join([UNESCAPE[s] if s in UNESCAPE else s for s in token])
 
-def unidecode_classic(tokens):
+def unidecode_classic(tokens: List[str]) -> List[str]:
     ''' Transliteration with unidecode '''
     return [unidecode.unidecode(t,errors='preserve') for t in tokens]
 
-def unidecode_ger(tokens):
+def unidecode_ger(tokens: List[str]) -> List[str]:
     ''' Transliteration with unidecode but keep ÄÖÜäöüß'''
     return [unescape(unidecode.unidecode(escape(t),errors='preserve')) 
             for t in tokens]
 
 # (B) Punctuation removal
 
-def remove_punctuation(tokens):
+def remove_punctuation(tokens: List[str]) -> List[str]:
     ''' Remove punctuation from list of tokenized tokens '''
     return [t for t in tokens if re.sub(r'[^\w\s]', '', t) != '']
 
-def punct_idxs(tokens):
+def punct_idxs(tokens: List[str]) -> List[int]:
+    ''' Return the indexes of punctuation tokens '''
     return [i for i,t in enumerate(tokens) 
             if re.sub(r'[^\w\s]', '', t) == ''
             ]
 
 # (C) Case modification
 
-def to_lowercase(tokens):
+def to_lowercase(tokens: List[str]) -> List[str]:
     ''' Convert a list of tokenized tokens to lowercase '''
     return [t.lower() for t in tokens]
 
@@ -69,9 +71,9 @@ def to_truecase(tokens):
 
 class TextModifier:
 
-    def __init__(self, doc=[], **kwargs):
+    def __init__(self, doc: List[List[str]] = [[]], **kwargs):
         '''
-        TextModifier object 
+        Instantiate TextModifier object with a text and a configuration
 
         Parameters
         ----------
@@ -117,7 +119,7 @@ class TextModifier:
                     raise ValueError(f"Unknown config entry: {key}={val}")
         return True
 
-    def modify(self):
+    def modify(self) -> List[List[str]]:
         '''
         Apply text modification functions in the order given in self.config
         '''
