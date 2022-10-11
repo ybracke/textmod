@@ -8,7 +8,7 @@ version = "0.0.1"
 authors = [
   { name="Yannic Bracke", email="yannic.bracke@bbaw.de" },
 ]
-description = "Functions for modifying lists of text"
+description = "Functions for modifying tokenized text"
 readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [
