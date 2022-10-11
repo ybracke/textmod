@@ -1,22 +1,57 @@
-# `textmod`
+# textmod
 
-Functions for modifying text (inside lists)
+Functions for modifying tokenized text (i.e. lists of words).
 
-To be used for pre- or post-precessing in my tool comparison.
+This can be used to pre- or post-process a text in an NLP task.
 
-Directory `code2recycle` contains symlinks to previously written programs
-that already contain much of the desired functionality.
+## Installation
 
-# Functionalities (present and future)
+`pip install git+ssh://git@github.com/ybracke/textmod.git`
 
-- Punctuation removal   
-  - different definitions / lists of punctuation? (typically pre-process)
-- lowercasing (both)
-- unidecode (typically pre-process)
-- option to apply additional external functions
-- truecasing (typically post-process) **TODO**
-- stemming (typically post-process) **TODO**
-- lemmatization (typically post-process) **TODO**
+## Requirements
+
+* Python >= 3.7
+* unidecode >= 1.3.4
+
+```bash
+pip install -r requirements.txt
+```
+
+To run tests: pytest >= 7.1
+
+## Supported modifications
+
+- Punctuation removal 
+- lowercasing 
+- unidecode 
+
+## Usage
+
+```python
+config = {
+    "remove_punct" : True,
+    "translit" : "unidecode_GER",
+    "lowercase" : True
+}
+text = [['Um', 'den', 'Vorrath', 'grüner', 'Olivenäſte', '.', 'Den', 'er', 
+        'ſich', 'zur', 'Seite', 'hatte', 'hinlegen', 'laſſen', '.', 'Allmählig', 
+        'in', 'die', 'Flamme', 'zu', 'ſchieben', '.']] 
+tm = textmod.TextModifier(text, **config)
+modified_text = tm.modify()
+
+target_text = [['um', 'den', 'vorrath', 'grüner', 'olivenäste', 'den', 'er', 
+                'sich', 'zur', 'seite', 'hatte', 'hinlegen', 'lassen', 'allmählig', 
+                'in', 'die', 'flamme', 'zu', 'schieben']]
+
+assert modified_text == target_text
+```
+
+
+## Possible future modifications
+
+- truecasing 
+- stemming 
+- lemmatization 
   
 - Order of manipulation matters, so watch out how you order stuff in the config
   - steps where order matters: 
@@ -24,16 +59,9 @@ that already contain much of the desired functionality.
     - unidecode <> lemmatization/stemming
     - lowercasing <> lemmatization/stemming
 
-# TODOs
 
-- [ ] Documentation (of data I/O, etc)
-- [ ] Take care of lemmatization/stemming:
-  - Look at the discussion here: https://dmm.bbaw.de/dstar-teambbaw/pl/q3b4kq7m4jd8deaxn4oij7ybuc
-  - Look at: /home/bracke/code/normpreproc/code2recycle/preproc.py
+## License
+Copyright © 2022 Berlin-Brandenburgische Akademie der Wissenschaften.
 
-# Requirements
-
-```bash
-pip install -r requirements.txt
-```
+This project is licensed under the GNU General Public License v3.0.
 
